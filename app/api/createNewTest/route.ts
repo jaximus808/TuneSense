@@ -42,7 +42,7 @@ export async function GET(request: Request){
                 }
             }
         )
-    }, 20000)
+    }, 20000*1000)
 
    
     try
