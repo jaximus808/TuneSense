@@ -61,12 +61,14 @@ export async function GET(request: Request){
             }
         )
 
+            
+
         return NextResponse.json({"fail":false,right: rightPitch,
         left: leftPitch}); 
     }
     catch(e)
     {
         console.log(e)
-        return NextResponse.json({"fail":true, msg: "something went wrong"}); 
+        return NextResponse.json({"fail":true, msg: e}); 
     }
 }
