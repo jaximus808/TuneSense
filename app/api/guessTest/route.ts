@@ -77,14 +77,14 @@ export async function POST(request: Request){
     
     //update user
     console.log(userId)
-    const usedId = await jsonwebtoken.verify(userId, process.env.TOKEN_SECRET!) as string;
+    const usedId = await jsonwebtoken.verify(userId, process.env.TOKEN_SECRET!) as jsonwebtoken.JwtPayload;
     console.log(typeof usedId)
     const userToken = usedId; 
     console.log(userToken)
     const user = await prisma.user.findUnique(
         {
             where: {
-                loginCode:userToken["userId"]
+                loginCode:userToken.userId
             }
         }
         )

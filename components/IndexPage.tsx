@@ -9,9 +9,10 @@ export default function IndexPage()
 
     const [loginUser, setLoginUser ] = useState("")
     const [serverResponse, setServerResponse ] = useState("")
-    
+    const [loading, setLoading] = useState(false)
     async function LoginUser()
     {
+        setLoading(true)
         const response = await fetch("/api/loginUser", {
             method:"POST",
             headers:
@@ -23,6 +24,7 @@ export default function IndexPage()
                 userId: loginUser
             })
         }) 
+        setLoading(false)
         const data = await response.json(); 
         if(!data.fail)
         {
@@ -40,6 +42,7 @@ export default function IndexPage()
             <div className='w-full rounded-2xl bg-[#4692E8] p-16 text-white text-center'>
 
                 <h3 className='font-bold text-[6vw]'>TuneSense Fun!</h3>
+                <h3 className='test-[1vw]'>{(loading) ? "Loading...":""}</h3>
 
             </div>
             <div className='w-3/4 min-h-1/4 rounded-3xl bg-[#4692E8] p-8 text-white flex flex-col text-center items-center justify-between'>

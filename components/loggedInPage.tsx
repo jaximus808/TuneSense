@@ -14,6 +14,7 @@ export default function LoggedInPage(props:any)
 
     const [testing, setTesting] = useState((props.testIsSet) ? props.testData:false)
 
+    const [loading, setLoading] = useState(false )
 
     const [pitch1,setPitch1] = useState((props.testIsSet)? props.testData.left: 1)
     const [pitch2,setPitch2] = useState((props.testIsSet)? props.testData.right: 1)
@@ -47,6 +48,7 @@ export default function LoggedInPage(props:any)
 
     const SendCorrect = async (guess:number) =>
     {
+        setLoading(true)
         const request = await fetch('/api/guessTest',
         {
             method:"POST",
@@ -55,6 +57,7 @@ export default function LoggedInPage(props:any)
             })
         })
         const data = await request.json();
+        setLoading(false)
         if(data.fail)
         {
             return; 
@@ -97,6 +100,7 @@ export default function LoggedInPage(props:any)
 
         if(testing) return;
 
+        setLoading(true)
         const res = await fetch('/api/createNewTest',
         {
             method:"GET",
@@ -105,6 +109,8 @@ export default function LoggedInPage(props:any)
             }
         })
 
+        
+        setLoading(false)
         const data = await res.json()
 
         if(data.fail) return; 
@@ -146,6 +152,7 @@ export default function LoggedInPage(props:any)
 
     const Logout = ()=>
     {
+        setLoading(true)
         fetch('/api/logout',
         {
             method:"GET",
@@ -153,7 +160,10 @@ export default function LoggedInPage(props:any)
             'Content-Type': 'application/json',
         }}).then(data=>
             data.json()).then(data => window.location.href = "/")
+        
+        setLoading(false)
     }
+    
     console.log(username)
 
 
@@ -168,7 +178,7 @@ export default function LoggedInPage(props:any)
 
             </div>
             <div className='mt-12 w-full rounded-2xl bg-[#4692E8] p-8 text-white text-center'>
-
+                <h3 className='test-[1vw]'>{(loading) ? "Loading...":""}</h3>
                 <h3 className='text-[2vw]'>
                     {(correct ==1 ) ? "Correct! Keep Going!": (correct ==2 ) ? "Incorrect! Try Again!" :""}
                 </h3>

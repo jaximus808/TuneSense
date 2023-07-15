@@ -8,6 +8,7 @@ export default function ReigsterPage()
 
     const register = async ()=>
     {
+        setLoading(true)
         const response = await fetch("/api/registerUser", {
             method:"POST",
             headers:
@@ -21,6 +22,7 @@ export default function ReigsterPage()
             })
         })
 
+        setLoading(false)
         const data = await response.json(); 
         console.log(data)
         if(data.fail)
@@ -36,6 +38,7 @@ export default function ReigsterPage()
     const [username, setUserName] = useState("");
 
     const [userId, setUserId] = useState("");
+    const [loading, setLoading] = useState(false)
 
 
     const [serverResponse, setServerResponse ] = useState("")
@@ -44,6 +47,8 @@ export default function ReigsterPage()
         <div className='w-full rounded-2xl bg-[#4692E8] p-16 text-white text-center'>
 
             <h3 className='font-bold text-[6vw]'>Register</h3>
+
+            <h3 className='test-[1vw]'>{(loading) ? "Loading...":""}</h3>
 
             <h2 className="text-[3vw] mt-2">Create a Username and UserId for Your Account!</h2>
 
@@ -55,7 +60,7 @@ export default function ReigsterPage()
                 
 
 
-            <h2 className="text-[2vw] mt-5">You'll use the UserId to login and it'll need to be unique. </h2>
+            <h2 className="text-[2vw] mt-5">You willll use the UserId to login and it willll need to be unique. </h2>
             
             <button className="bg-[#42B0E6] transition duration-150 hover:bg-[#40CBDF] mt-6 rounded-md text-[1.5vw] p-4" onClick={register} >Sign Up!</button>
             <h3>
