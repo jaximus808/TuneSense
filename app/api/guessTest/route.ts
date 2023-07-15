@@ -8,7 +8,7 @@ import * as jsonwebtoken from "jsonwebtoken"
 import { NextResponse } from 'next/server';
 import { Cookies } from 'react-cookie';
 import uniqid from "uniqid";
-
+export const dynamic = 'force-dynamic' 
 type accountData = {
     guessId: number
 }
@@ -89,9 +89,9 @@ export async function POST(request: Request){
         }
         )
     if(!user) return NextResponse.json({fail:true})
-    if(correct) user.correct++;
-    user.total++;
-    user.score =user.correct / parseFloat( user.total.toString())
+    // if(correct) user.correct++;
+    // user.total++;
+    // user.score =user.correct / parseFloat( user.total.toString())
     await prisma.user.update({
         where: {
             loginCode: userToken["userId"],

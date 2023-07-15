@@ -60,7 +60,7 @@ export default function ReigsterPage()
                 
 
 
-            <h2 className="text-[2vw] mt-5">You willll use the UserId to login and it willll need to be unique. </h2>
+            <h2 className="text-[2vw] mt-5">You will use the UserId to login and it will need to be unique. </h2>
             
             <button className="bg-[#42B0E6] transition duration-150 hover:bg-[#40CBDF] mt-6 rounded-md text-[1.5vw] p-4" onClick={register} >Sign Up!</button>
             <h3>
