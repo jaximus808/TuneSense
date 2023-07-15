@@ -12,7 +12,7 @@ import uniqid from "uniqid";
 type accountData = {
     userId: string
 }
-
+export const dynamic = 'force-dynamic' 
 const prisma = new PrismaClient()
 
 export async function GET(request: Request){

@@ -14,7 +14,7 @@ type accountData = {
 }
 
 const prisma = new PrismaClient()
-
+export const dynamic = 'force-dynamic' 
 export async function GET(request: Request){
 
     const newTestToken = await uniqid.process() as string
