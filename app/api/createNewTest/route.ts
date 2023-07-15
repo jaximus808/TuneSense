@@ -32,17 +32,17 @@ export async function GET(request: Request){
         },
     });
 
-    // setTimeout(()=>
-    // {
-    //     prisma.test.delete(
-    //         {
-    //             where:
-    //             {
-    //                 codeId: newTestToken
-    //             }
-    //         }
-    //     )
-    // }, 20000*1000)
+    setTimeout(()=>
+    {
+        prisma.test.delete(
+            {
+                where:
+                {
+                    codeId: newTestToken
+                }
+            }
+        )
+    }, 20000*1000)
 
    
     try
