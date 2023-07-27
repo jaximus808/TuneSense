@@ -19,8 +19,52 @@ export async function GET(request: Request){
 
     const newTestToken = await uniqid.process() as string
 
-    const leftPitch = (Math.floor(Math.random()*4) * 0.25) + 0.5; 
-    const rightPitch = (Math.floor(Math.random()*4) * 0.25) + 0.5; 
+    const cookieStore = cookies()
+
+    const randomValues = [];
+
+    const exclude = []; 
+
+
+    if(!cookieStore.get("previousTest"))
+    {
+        try
+        {
+            const excludes = JSON.parse(cookieStore.get("previousTest")?.value as string);
+            exclude.push(excludes[0]);
+            exclude.push(excludes[1]);
+
+        }
+        catch{}
+    }
+
+    for(let i = 0; i < 8; i++)
+    {
+        const value = i*0.125 + 0.5; 
+        if(exclude.includes(value)) continue
+        randomValues.push(value)
+    }
+
+    const indexL = (Math.floor(Math.random()*randomValues.length) ); 
+
+    const leftPitch = randomValues[indexL]; 
+
+    randomValues.splice(indexL, 1); 
+
+    const indexR = (Math.floor(Math.random()*randomValues.length) )
+
+    const rightPitch = randomValues[ indexR];
+
+    cookies().set(
+        {
+            name: "previousTest",
+            value:JSON.stringify([
+                leftPitch,rightPitch
+            ]) ,
+            path:"/",
+            maxAge:30000
+        }
+    )
 
 
     const test = await prisma.test.create

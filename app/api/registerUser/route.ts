@@ -8,7 +8,7 @@ import * as jsonwebtoken from "jsonwebtoken"
 import { NextResponse } from 'next/server';
 
 import uniqid from "uniqid";
-
+export const dynamic = 'force-dynamic' 
 type accountData = {
     name: string,
     userId: string

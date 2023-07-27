@@ -59,15 +59,13 @@ export async function POST(request: Request){
 
     console.log(guessId)
 
+
     if(guessId == 1 && testData.left>testData.right)
     {
         correct = true
     }
-    else if(guessId == 2 && testData.left==testData.right)
-    {
-        correct = true
-    }
-    else if(guessId == 3 && testData.left<testData.right)
+    
+    else if(guessId == 2 && testData.left<testData.right)
     {
         correct = true
     }
@@ -92,16 +90,19 @@ export async function POST(request: Request){
     // if(correct) user.correct++;
     // user.total++;
     // user.score =user.correct / parseFloat( user.total.toString())
+
+    const updateData = {
+        total: user.total +1,
+        correct:user.correct + ((correct)? 1: 0),
+        score:parseFloat( user.correct.toString()) / parseFloat( user.total.toString()+1)
+
+    }
+    console.log(updateData)
     await prisma.user.update({
         where: {
             loginCode: userToken["userId"],
         },
-        data: {
-            total: user.total +1,
-            correct:user.correct + ((correct)? 1: 0),
-            score:user.correct / parseFloat( user.total.toString())
-
-        },
+        data: updateData,
     })
     
    

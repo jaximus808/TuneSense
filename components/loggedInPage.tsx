@@ -72,6 +72,7 @@ export default function LoggedInPage(props:any)
             setCorrect(2)
         }
         setState("waiting")
+        setTesting(false)
         
     }
 
@@ -82,13 +83,10 @@ export default function LoggedInPage(props:any)
     
     const RightPitch = () =>
     {
-        SendCorrect(3)
-    }
-
-    const SamePitch = () =>
-    {
         SendCorrect(2)
     }
+
+    
 
     const getRandomPitch = () =>
     {
@@ -121,12 +119,12 @@ export default function LoggedInPage(props:any)
 
         setSing1(true); 
         setPitch1(data.left);
-        audioPlayer.playbackRate = pitch1;
+        audioPlayer.playbackRate = data.left;
         await playAudio();
         setSing1(false); 
         setSing2(true); 
         setPitch2(data.right);
-        audioPlayer.playbackRate = pitch2;
+        audioPlayer.playbackRate = data.right;
         await playAudio();
 
         setState("deciding")
@@ -208,13 +206,11 @@ export default function LoggedInPage(props:any)
                         </div>
 
                 <h3 className='text-[2vw]'>Which Audio Has The Greatest Pitch?</h3>
-                        <div className='grid grid-cols-3 grid-rows-1 w-full mt-2 relative  '>
+                        <div className='grid grid-cols-2 grid-rows-1 w-full mt-2 relative  '>
                             <button onClick={LeftPitch} className='bg-[#42B0E6] text-[2vw] hover:bg-[#40CBDF] transition duration-150 text-center text-[1vw] p-2 rounded-2xl ml-4'>
                                 Left is Higher
                             </button>
-                            <button onClick={SamePitch} className='bg-[#42B0E6] text-[2vw] hover:bg-[#40CBDF] transition duration-150 text-center text-[1vw] p-2  rounded-2xl ml-4'>
-                                Same
-                            </button>
+                            
                             <button onClick={RightPitch} className='bg-[#42B0E6] text-[2vw] hover:bg-[#40CBDF] transition duration-150 text-center text-[1vw] p-2 rounded-2xl ml-4 '>
                                 Right is Higher
                             </button>
