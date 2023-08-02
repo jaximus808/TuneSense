@@ -140,6 +140,18 @@ export default function LoggedInPage(props:any)
         setSing1(false); 
     }
 
+    const Play = async () =>
+    {
+        setSing1(true); 
+        audioPlayer.playbackRate = pitch1;
+        await playAudio();
+        setSing1(false); 
+        setSing2(true); 
+        audioPlayer.playbackRate = pitch2;
+        await playAudio();
+        setSing2(false); 
+    }
+
     const Play2 = async () =>
     {
         setSing2(true); 
@@ -195,13 +207,11 @@ export default function LoggedInPage(props:any)
                     (state == "deciding")?
                     <div>
 
-                        <div className='grid grid-cols-2 grid-rows-1 w-full '>
-                            <button onClick={Play1} className='bg-[#42B0E6] hover:bg-[#40CBDF] transition duration-150 text-center text-[1vw] p-4 rounded-2xl ml-4'>
-                                Play Sound 1 Again
+                        <div className=''>
+                            <button onClick={Play} className='bg-[#42B0E6] hover:bg-[#40CBDF] w-1/4 transition duration-150 text-center text-[1vw] p-4 rounded-2xl ml-4'>
+                                Play Sound Again
                             </button>
-                            <button onClick={Play2} className='bg-[#42B0E6] hover:bg-[#40CBDF] transition duration-150 text-center text-[1vw] p-4 rounded-2xl ml-4'>
-                                Play Sound 2 Again
-                            </button>
+                            
                             
                         </div>
 
