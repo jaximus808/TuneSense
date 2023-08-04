@@ -94,7 +94,7 @@ export async function POST(request: Request){
     const updateData = {
         total: user.total +1,
         correct:user.correct + ((correct)? 1: 0),
-        score:parseFloat( user.correct.toString()) / parseFloat( user.total.toString()+1)
+        score:user.correct /  (user.total+1)
 
     }
     console.log(updateData)
