@@ -32,24 +32,24 @@ export async function GET(request: Request){
         {
             const excludes = JSON.parse(cookieStore.get("previousTest")?.value as string);
             exclude.push(excludes[0]);
-            exclude.push(excludes[1]);
+            
 
         }
         catch{}
     }
 
-    for(let i = 0; i < 8; i++)
+    for(let i = 1; i < 12; i++)
     {
-        const value = i*0.125 + 0.5; 
+        const value = i; 
         if(exclude.includes(value)) continue
         randomValues.push(value)
     }
 
-    const indexL = (Math.floor(Math.random()*randomValues.length) ); 
+    // const indexL = (Math.floor(Math.random()*randomValues.length) ); 
 
-    const leftPitch = randomValues[indexL]; 
+    // const leftPitch = randomValues[indexL]; 
 
-    randomValues.splice(indexL, 1); 
+    // randomValues.splice(indexL, 1); 
 
     const indexR = (Math.floor(Math.random()*randomValues.length) )
 
@@ -59,7 +59,7 @@ export async function GET(request: Request){
         {
             name: "previousTest",
             value:JSON.stringify([
-                leftPitch,rightPitch
+                rightPitch
             ]) ,
             path:"/",
             maxAge:30000
@@ -72,7 +72,7 @@ export async function GET(request: Request){
         data: {
             codeId: newTestToken,
             right: rightPitch,
-            left: leftPitch
+            left: 6
         },
     });
 
@@ -98,7 +98,7 @@ export async function GET(request: Request){
                 value:JSON.stringify({
                     codeId: newTestToken,
                     right: rightPitch,
-                    left: leftPitch
+                    left: 6
                 }) ,
                 path:"/",
                 maxAge:20000
@@ -107,8 +107,7 @@ export async function GET(request: Request){
 
             
 
-        return NextResponse.json({"fail":false,right: rightPitch,
-        left: leftPitch}); 
+        return NextResponse.json({"fail":false,right: rightPitch}); 
     }
     catch(e)
     {

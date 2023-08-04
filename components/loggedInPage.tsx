@@ -1,12 +1,12 @@
 'use client'
 
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 
-import { Cookies } from 'react-cookie'
+import { useCookies } from 'react-cookie'
 
 export default function LoggedInPage(props:any)
 {
-    const audioPlayer = new Audio('./mamaSound.wav')
+    const [audioPlayer,setAudioPlayer] = useState( new Audio())
 
     console.log(props)
 
@@ -15,6 +15,8 @@ export default function LoggedInPage(props:any)
     const [testing, setTesting] = useState((props.testIsSet) ? props.testData:false)
 
     const [loading, setLoading] = useState(false )
+
+    const [audioFile, setAudioFile] = useState("");
 
     const [pitch1,setPitch1] = useState((props.testIsSet)? props.testData.left: 1)
     const [pitch2,setPitch2] = useState((props.testIsSet)? props.testData.right: 1)
@@ -27,7 +29,7 @@ export default function LoggedInPage(props:any)
 //2 incorrect
     
 
-    
+    const [cookies, setCookie, removeCookie] = useCookies(['currentTest']);
 
     const [username, setUsername] = useState(props.data.username)
 
@@ -86,13 +88,6 @@ export default function LoggedInPage(props:any)
         SendCorrect(2)
     }
 
-    
-
-    const getRandomPitch = () =>
-    {
-        return (Math.floor(Math.random()*4) * 0.25) + 0.5; 
-    }
-
     const beginTest = async ()=>
     {
 
@@ -117,19 +112,44 @@ export default function LoggedInPage(props:any)
         
         setState("playing")
 
-        setSing1(true); 
-        setPitch1(data.left);
-        audioPlayer.playbackRate = data.left;
-        await playAudio();
-        setSing1(false); 
-        setSing2(true); 
-        setPitch2(data.right);
-        audioPlayer.playbackRate = data.right;
-        await playAudio();
 
-        setState("deciding")
-        setSing2(false); 
+        const letterArr = ['a','b','c','d']
+
+        const letterCode = letterArr[Math.floor(letterArr.length*Math.random())]
+
+        setAudioFile(`/Mamama_s/a0_${letterCode}_06_0${data.right}.wav`);
+
+        audioPlayer.src = `/Mamama_s/a0_${letterCode}_06_0${data.right}.wav`
         
+
+        console.log(audioFile)
+        
+        playAudio()
+
+        setSing1(true); 
+        setTimeout(()=>
+        {
+            setSing1(false); 
+            setSing2(true); 
+            setTimeout(()=>
+            {
+                setSing2(false); 
+                setState("deciding")   
+            },audioPlayer.duration/2)
+ 
+        },audioPlayer.duration/2)
+        // setSing1(true); 
+        // setPitch1(data.left);
+        // audioPlayer.playbackRate = data.left;
+        // await playAudio();
+        // setSing1(false); 
+        // setSing2(true); 
+        // setPitch2(data.right);
+        // audioPlayer.playbackRate = data.right;
+        // await playAudio();
+
+        //setSing2(false); 
+            
     }
 
     const Play1 = async ()=>
@@ -142,14 +162,20 @@ export default function LoggedInPage(props:any)
 
     const Play = async () =>
     {
+        playAudio()
+
         setSing1(true); 
-        audioPlayer.playbackRate = pitch1;
-        await playAudio();
-        setSing1(false); 
-        setSing2(true); 
-        audioPlayer.playbackRate = pitch2;
-        await playAudio();
-        setSing2(false); 
+        setTimeout(()=>
+        {
+            setSing1(false); 
+            setSing2(true); 
+            setTimeout(()=>
+            {
+                setSing2(false); 
+                setState("deciding")   
+            },audioPlayer.duration/2)
+ 
+        },audioPlayer.duration/2) 
     }
 
     const Play2 = async () =>
@@ -174,7 +200,35 @@ export default function LoggedInPage(props:any)
         setLoading(false)
     }
     
-    console.log(username)
+
+    useEffect(()=>
+    {
+        if(cookies.currentTest)
+        {
+            fetch('/api/getTest',
+            {
+                method:"GET",
+                headers:{
+                    'Content-Type': 'application/json',
+                }}).then(data=>
+                    data.json())
+                .then(async(data) => {
+
+                    if(!data.fail)
+                    {
+                        const letterArr = ['a','b','c','d']
+
+                        const letterCode = letterArr[Math.floor(letterArr.length*Math.random())]
+                        
+                        setAudioFile(`/Mamama_s/a0_${letterCode}_06_0${data.right}.wav`);
+                        setAudioPlayer(new Audio(`/Mamama_s/a0_${letterCode}_06_0${data.right}.wav`));
+                        
+                    }
+
+                })
+                
+        }
+    },[])
 
 
     return (
