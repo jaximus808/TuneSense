@@ -135,9 +135,9 @@ export default function LoggedInPage(props:any)
             {
                 setSing2(false); 
                 setState("deciding")   
-            },audioPlayer.duration/2)
+            },500)
  
-        },audioPlayer.duration/2)
+        },500)
         // setSing1(true); 
         // setPitch1(data.left);
         // audioPlayer.playbackRate = data.left;
@@ -163,7 +163,7 @@ export default function LoggedInPage(props:any)
     const Play = async () =>
     {
         playAudio()
-
+ 
         setSing1(true); 
         setTimeout(()=>
         {
@@ -173,9 +173,9 @@ export default function LoggedInPage(props:any)
             {
                 setSing2(false); 
                 setState("deciding")   
-            },audioPlayer.duration/2)
+            },500)
  
-        },audioPlayer.duration/2) 
+        },500)
     }
 
     const Play2 = async () =>
@@ -205,6 +205,7 @@ export default function LoggedInPage(props:any)
     {
         if(cookies.currentTest)
         {
+            setLoading(true)
             fetch('/api/getTest',
             {
                 method:"GET",
@@ -221,8 +222,14 @@ export default function LoggedInPage(props:any)
                         const letterCode = letterArr[Math.floor(letterArr.length*Math.random())]
                         
                         setAudioFile(`/Mamama_s/a0_${letterCode}_06_0${data.right}.wav`);
-                        setAudioPlayer(new Audio(`/Mamama_s/a0_${letterCode}_06_0${data.right}.wav`));
+                        audioPlayer.src = `/Mamama_s/a0_${letterCode}_06_0${data.right}.wav`
                         
+                        audioPlayer.addEventListener('canplaythrough',()=>
+                        {
+
+                            setLoading(false)
+                        }, false)
+
                     }
 
                 })
