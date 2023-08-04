@@ -41,7 +41,7 @@ export async function GET(request: Request){
     for(let i = 1; i < 12; i++)
     {
         const value = i; 
-        if(exclude.includes(value)) continue
+        if(exclude.includes(value) || i == 6) continue
         randomValues.push(value)
     }
 
